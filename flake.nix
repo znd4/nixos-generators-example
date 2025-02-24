@@ -55,15 +55,9 @@
                 # Pin nixpkgs to the flake input, so that the packages installed
                 # come from the flake inputs.nixpkgs.url.
                 nix.registry.nixpkgs.flake = nixpkgs;
-                services.caddy = {
-                  enable = true;
-                };
                 virtualisation.diskSize =20*1024;
-                networking.firewall = {
-                  enable = true;
-                  allowedTCPPorts = [ 80 443 ];
-                };
               }
+              ./configuration.nix
             ];
             format = "amazon";
           };

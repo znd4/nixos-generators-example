@@ -58,6 +58,7 @@
                 services.caddy = {
                   enable = true;
                 };
+                virtualization.diskSize =20*1024;
                 networking.firewall = {
                   enable = true;
                   allowedTCPPorts = [ 80 443 ];

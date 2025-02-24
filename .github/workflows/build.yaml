@@ -1,0 +1,36 @@
+name: Build and Upload VM
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v9
+
+      - name: Enable Nix flakes
+        run: |
+          mkdir -p ~/.config/nix
+          echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+
+      - name: Build VM
+        run: |
+          nix build .#vm --system x86_64-linux
+          # Create a tarball of the result for easier handling
+          tar -czf vm-result.tar.gz -C result .
+
+      - name: Upload VM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nixos-vm
+          path: vm-result.tar.gz
+          retention-days: 7

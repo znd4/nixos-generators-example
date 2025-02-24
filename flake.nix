@@ -58,8 +58,6 @@
                 # set disk size to to 20G
                 virtualisation.diskSize = 20 * 1024;
               }
-              # Apply the rest of the config.
-              ./configuration.nix
             ];
             format = "amazon";
           };
